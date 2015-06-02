@@ -56,15 +56,13 @@ loop do
   else
     REQUEST = parse(raw_request)
     PARAMS  = REQUEST[:params]
-    # Use the REQUEST and PARAMS constants to full the request and
-    # return an appropriate reponse
     if PARAMS[:resource] == 'users' && REQUEST[:method] == 'GET' && REQUEST[:id] == nil
       @users = User.all
+      puts "200 OK"
       @users.each do |result|
         puts "#{result.first_name}"
         puts "#{result.last_name}"
         puts "#{result.age}"
-        puts "200 OK"
       end
     end
 
