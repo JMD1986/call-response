@@ -1,4 +1,6 @@
-require_relative '../db/setup'
+require_relative '../db/setup.rb'
+require_relative '../lib/user.rb'
+
 # Remember to put the requires here for all the classes you write and want to use
 
 def parse_params(uri_fragments, query_param_string)
@@ -49,16 +51,32 @@ loop do
   when 'q' then puts "Goodbye!"; exit
   when 'h'
     puts "A valid HTTP Request looks like:"
-    puts "\t'GET http://localhost:3000/students HTTP/1.1'"
+    puts "\t'GET http://localhost:3000/students/1 HTTP/1.1'"
     puts "Read more at : http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html"
   else
     REQUEST = parse(raw_request)
     PARAMS  = REQUEST[:params]
     # Use the REQUEST and PARAMS constants to full the request and
     # return an appropriate reponse
+    if PARAMS[:resource] == 'users' && REQUEST[:method] == 'GET' && REQUEST[:id] == nil
+      @users = User.all
+      @users.each do |result|
+        puts "#{result.first_name}"
+        puts "#{result.last_name}"
+        puts "#{result.age}"
+        puts "200 OK"
+      end
+    end
 
-    # YOUR CODE GOES BELOW HERE
-
-    # YOUR CODE GOES ABOVE HERE  ^
-  end
+  #   if  PARAMS[:resource] == 'users' && REQUEST[:method] == 'GET' && REQUEST[:id] == !nil
+  #     users = User.all
+  #     User.where(:id "")
+  #       puts users.find(tld.to_i)
+  #       puts "200 OK"
+  #     else
+  #       puts "404 not found"
+  #     end
+  #   end
+  # end
+end
 end
